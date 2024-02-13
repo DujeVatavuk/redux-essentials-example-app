@@ -9,8 +9,8 @@ export const EditPostForm = ({ match }) => {
 
   const post = useSelector((state) => state.posts.find((post) => post.id === postId));
 
-  const [title, setTitle] = useState(post.title);
-  const [content, setContent] = useState(post.content);
+  const [title, setTitle] = useState(post?.title);
+  const [content, setContent] = useState(post?.content);
 
   const dispatch = useDispatch();
   const history = useHistory();
