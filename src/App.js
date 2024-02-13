@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 
 import { Navbar } from './app/Navbar'
-import { PostList } from './features/posts/PostList'
+import { PostsList } from './features/posts/PostsList'
 import { AddPostForm } from './features/posts/AddPostForm'
 import { SinglePostPage } from './features/posts/SinglePostPage'
 import { EditPostForm } from './features/posts/EditPostForm'
@@ -24,7 +24,7 @@ function App() {
             render={() => (
               <React.Fragment>
                 <AddPostForm />
-                <PostList />
+                <PostsList />
               </React.Fragment>
             )}
           />

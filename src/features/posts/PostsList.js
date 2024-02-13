@@ -5,10 +5,12 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { PostAuthor } from "./PostAuthor";
 import { TimeAgo } from "./TimeAgo";
 
-export const PostList = () => { 
+export const PostsList = () => {
   const posts = useSelector((state) => state.posts);
 
-  const renderedPosts = posts.map((post) => (
+  const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));//needs to be immutable, so we use slice() to create a copy of the array before sorting it.
+
+  const renderedPosts = orderedPosts.map((post) => (
     <article className="post-excerpt" key={post.id}>
       <h3>{post.title}</h3>
       <div>
