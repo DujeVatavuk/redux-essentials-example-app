@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = [
   { id: '0', name: 'Tianna Jenkins' },
