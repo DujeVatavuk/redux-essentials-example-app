@@ -12,26 +12,15 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   return response.data;
 });
 
+export const addNewPost = createAsyncThunk("posts/addNewPost", async (initialPost) => { 
+  const response = await client.post("/fakeApi/posts", { post: initialPost });
+  return response.data;
+});
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    postAdded: {
-      reducer(state, action) {
-        state.posts.push(action.payload);
-      }, 
-      prepare(title, content, userId) {
-        return {
-          payload: {
-            id: nanoid(),
-            date: new Date().toISOString(),
-            title,
-            content,
-            user: userId,
-          }
-        }
-      }
-    },
     postUpdated(state, action) { 
       const { id, title, content } = action.payload;
       const existingPost = state.posts.find((post) => post.id === id);
@@ -50,17 +39,22 @@ const postsSlice = createSlice({
   },
   extraReducers(builder) { 
     builder
-    .addCase(fetchPosts.pending, (state, action) => {
-      state.status = "loading";
-    })
-    .addCase(fetchPosts.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.posts = state.posts.concat(action.payload);
-    })
-    .addCase(fetchPosts.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.error.message;
-    });
+      .addCase(fetchPosts.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.posts = state.posts.concat(action.payload);
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+    builder
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        state.posts.push(action.payload);
+      });
+
   }
 });
 
