@@ -38,16 +38,21 @@ export const PostsList = () => {
     }
    }, [postStatus, dispatch]);
 
-  const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));//needs to be immutable, so we use slice() to create a copy of the array before sorting it.
+  let content;
 
-  const renderedPosts = orderedPosts.map((post) => (
-    <PostExcerpt key={post.id} post={post} />
-  ));
+  if (postStatus === "loading") {
+    content = <Spinner text="Loading..." />;
+  } else if (postStatus === "succeeded") {
+    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date)); //we use slice so it is immutable
+    content = orderedPosts.map((post) => <PostExcerpt key={post.id} post={post} />);
+  } else if (postStatus === "failed") {
+    content = <div>{error}</div>;
+  }
 
   return (
     <section className="posts-list">
       <h2>Posts</h2>
-      {renderedPosts}
+      {content}
     </section>
   );
 };
